@@ -1,0 +1,8 @@
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/build/CMakeFiles/rebuild_cache.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/build/CMakeFiles/edit_cache.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/build/Server/Game/CMakeFiles/rebuild_cache.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/build/Server/Game/CMakeFiles/r-type_server.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/build/Server/Game/CMakeFiles/edit_cache.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/build/Client/CMakeFiles/rebuild_cache.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/build/Client/CMakeFiles/r-type_client.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/build/Client/CMakeFiles/edit_cache.dir

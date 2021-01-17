@@ -1,0 +1,5 @@
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/CMakeFiles/rebuild_cache.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/CMakeFiles/edit_cache.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/Client/CMakeFiles/rebuild_cache.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/Client/CMakeFiles/r-type_client.dir
+/home/cr/Epitech/CPP/B-CPP-501-PAR-5-1-rtype-rayann.folleas/Client/CMakeFiles/edit_cache.dir

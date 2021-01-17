@@ -1,0 +1,213 @@
+Epitech Paris                                                 V. Bouvier
+Request for Comments: 2692                                    R. Folleas
+Category: Standards Track                                     A. Auge
+                                                              H. Leonard
+                                                              Epitech
+                                                           December 2020
+
+                            R-Type Protocols
+
+Status of this Memo
+
+   This memo is the official specification of the R-Type Protocol
+   (the R-Type UDP Protocol). The R-Type is
+   a third year project from EPITECH. Distribution of this memo is
+   unlimited.
+
+Table of Contents
+
+   1.   Introduction . . . . . . . . . . . . . . . . . . . . . . . . . 1
+   2.   R-Type architecture  . . . . . . . . . . . . . . . . . . . . . 2
+   3.   R-Type UDP Protocol  . . . . . . . . . . . . . . . . . . . . . 2
+   3a.   Frames transmission . . . . . . . . . . . . . . . . . . . . . 3
+   3b.   Player events . . . . . . . . . . . . . . . . . . . . . . . . 3
+   4.   Game Start . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+   5.   On success . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+   6.   Contact  . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+
+
+1.  Introduction
+
+   The goal of the R-Type project is to create an online multiplayer
+   copy of the classic R-Type game (1987).
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2223.
+
+2.  R-Type architecture
+
+   The R-Type architecture is a classic client-server game architecture.
+   All the game engine is in the server. A client connects to the server
+   by using the R-Type UDP protocol. When connected, the client has the
+   choice between creating a lobby or joining an existing lobby.
+   Multiple clients can connect to the server at the same time. Then, a
+   lobby's creator client can launch a new game. The server can run
+   several games at the same time.
+
+
+Bouvier                    Standards Track                     [Page 1]
+
+RFC 2692                    R-Type Protocols               December 2020
+
+
+
+
+3.  R-Type UDP Protocol
+
+   Once the game is launched, the client-server communications are done
+   by using this R-Type UDP Protocol.
+
+   3a.  Frames transmission
+
+      The first purpose of the R-Type UDP Protocol is to send all the
+      frames to display (in the client) from the server to the
+      client.
+
+      The payload to send MUST contain all the elements to display in a
+      single frame, grouped in a game object list.
+
+      A game object list is a succession of game objects.
+
+      A game object is a succession of 6 numbers representing a sprite to
+      display and its position. Each one of these numbers MUST be coded
+      on 4 bytes. Thus, a game object MUST be 28 bytes long, and a
+      game object list of (n) game object MUST be (n * 28) bytes long.
+
+      The game object composition MUST be the following:
+
+         1st number = the texture ID
+
+         2nd number = the value of the secondary parameter
+
+         3rd number = X coordinate (in pixels) of the sprite's top left
+                      corner in its spritesheet
+
+         4th number = Y coordinate (in pixels) of the sprite's top left
+                      corner in its spritesheet
+
+         5th number = the state of the game object
+
+         6th number = the ID of the game object
+
+   The order of the SPRITE elements in SPRITE_LIST MUST be the final
+   order of displaying (in the game, every SPRITE will be displayed over
+   the previous ones).
+
+   The client MUST NOT respond to the server when a payload has been
+   received.
+
+   The server MUST be treated as the leader of the game to avoid
+   cheating. The client MUST only display what the server is asking to.
+
+
+
+Bouvier                     Standards Track                     [Page 2]
+
+RFC 2692                    R-Type Protocols               December 2020
+
+
+   3b.  Player events
+
+      The player, on the client-side, can execute several actions. On
+      each player action, the client MUST send to the server a specific
+      event payload containing informations about the action. This
+      payload MUST begins with an element (on 4 bytes) from the EVENT
+      enumeration, described below:
+
+         enum EVENT {
+            MOVE,
+            SHOOT,
+            QUIT
+         };
+
+         The MOVE event:
+
+            The player wants to move (to the left, right, up or down).
+            The client MUST add to the payload an element (on 4 bytes)
+            of the DIRECTION enumeration (described below) right after
+            the EVENT element. Thus, if the player wants to move, the
+            payload MUST be 8 bytes long.
+
+            enum DIRECTION {
+               LEFT,
+               RIGHT,
+               UP,
+               DOWN
+            };
+
+         The SHOOT event:
+
+            The player wants to shoot. In this case, the payload MUST be
+            only 4 bytes long.
+
+         The QUIT event:
+
+            The player wants to quit the game. The client MUST warn the
+            server with this 4 bytes long payload before quitting. The
+            client MAY exit without any response from the server.
+
+
+
+
+Bouvier                     Standards Track                     [Page 3]
+
+RFC 2692                    R-Type Protocols               December 2020
+
+   4. Game start
+
+      In order to start a game, the client MUST be in a lobby.
+      It MAY NOT be the creator of the lobby. To start the game, the
+      client MUST first send to the server a payload containing:
+
+         PORT = SERVER_PORT
+
+      On success, to start the game, the server MUST send to ALL the
+      clients connected to the game lobby a payload containing:
+
+         PORT = SERVER_PORT
+
+         The server MAY add a BODY data to the response payload,
+         containing additionnal informations.
+
+      On failure, the server MUST send to the client a response
+      payload containing:
+
+         PORT = FAILED_TO_CONNECT
+
+         The server MAY add a BODY data to the response payload,
+         containing additionnal informations about the failure.
+
+    5. On success, the server MUST send to the client a response
+         payload containing:
+
+         ACTION_NAME = OK
+         ALSO = Whatever the game needs to display the game
+
+         To watch over wich server is live, watch what the server's
+         is displaying.
+
+         Example (THIS IS NOT what will be displayed, it's more to
+         show you how the display is working) :
+
+              /--------------------------------------\
+              |    lobby name    | Number of players |
+              |------------------|-------------------|
+              |        01        |         2         |
+              |        02        |         1         |
+              \--------------------------------------/
+
+
+
+Bouvier                     Standards Track                     [Page 4]
+
+RFC 2692                    R-Type Protocols               December 2020
+
+
+
+   6. Contact us at vivien.bouvier@epitech.eu or 
+      with numberphone : +33(6) 47 14 90 99 (France)
+
+
+
+Bouvier                     Standards Track                     [Page 5]
